@@ -28,6 +28,8 @@ func main() {
 		Servers.Uptime("", "")
 	case "cool":
 		Machine.Cool()
+	case "scan":
+		Network.Scan()
 	default:
 		fmt.Println("Unkown Command")
 	}
