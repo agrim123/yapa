@@ -1,6 +1,8 @@
 package main
 
 import (
+	"./Machine"
+	"./Network"
 	"./Servers"
 	"fmt"
 	"os"
@@ -17,13 +19,15 @@ func main() {
 	case "key":
 		Servers.GetPublicKey()
 	case "ping":
-		Servers.Ping()
+		Network.Ping()
 	case "list":
 		Servers.ListServers()
 	case "bye":
 		Servers.Poweroff()
 	case "uptime":
 		Servers.Uptime("", "")
+	case "cool":
+		Machine.Cool()
 	default:
 		fmt.Println("Unkown Command")
 	}
