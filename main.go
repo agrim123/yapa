@@ -26,6 +26,8 @@ func ParseArgs(command string) {
 		Machine.Cool()
 	case "scan":
 		Network.Scan()
+	case "count":
+		Machine.Count()
 	default:
 		Utility.Help("Unkown Command")
 	}

@@ -21,6 +21,7 @@ func Help(endstring string) {
 
 	const commands = `COMMANDS:
    help    Display help
+   count   Count number of files/folders in directory
    key     Print current user public key
    ping    Check if online
    list    List all servers listed in config.json
