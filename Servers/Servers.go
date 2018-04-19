@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/bclicn/color"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
 	"io/ioutil"
@@ -15,6 +16,8 @@ import (
 )
 
 var sshConfig *ssh.ClientConfig
+
+const CONFIG_PATH = "../Config/config.json"
 
 type Server struct {
 	Ip    string
@@ -107,7 +110,7 @@ func executeCmd(cmd, hostname string) string {
 
 func ListServers() {
 	var conf Config
-	configFile, err := os.Open("config.json")
+	configFile, err := os.Open(CONFIG_PATH)
 	if err != nil {
 		fmt.Println("opening config file", err.Error())
 	}
@@ -133,7 +136,14 @@ func Poweroff() {
 	}
 }
 
-func Uptime(user, hostname string) {
+func Uptime() {
+	if len(os.Args) < 4 {
+		log.Fatal(color.Red("Please supply a user and hostname to view uptime of server."))
+	}
+
+	user := os.Args[2]
+	hostname := os.Args[3]
+
 	PrepareSSH(user)
 	fmt.Println(executeCmd("uptime", hostname))
 }

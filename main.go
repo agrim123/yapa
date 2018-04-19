@@ -4,18 +4,14 @@ import (
 	"./Machine"
 	"./Network"
 	"./Servers"
-	"fmt"
+	"./Utility"
 	"os"
 )
 
-func main() {
-	if len(os.Args) < 2 {
-		panic("No args")
-	}
-
-	args := os.Args
-
-	switch args[1] {
+func ParseArgs(command string) {
+	switch command {
+	case "help":
+		Utility.Help("")
 	case "key":
 		Servers.GetPublicKey()
 	case "ping":
@@ -25,12 +21,22 @@ func main() {
 	case "bye":
 		Servers.Poweroff()
 	case "uptime":
-		Servers.Uptime("", "")
+		Servers.Uptime()
 	case "cool":
 		Machine.Cool()
 	case "scan":
 		Network.Scan()
 	default:
-		fmt.Println("Unkown Command")
+		Utility.Help("Unkown Command")
 	}
+}
+
+func main() {
+	if len(os.Args) < 2 {
+		Utility.Help("No arguments specified.")
+	}
+
+	args := os.Args
+
+	ParseArgs(args[1])
 }
