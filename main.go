@@ -10,7 +10,7 @@ import (
 
 func ParseArgs(command string) {
 	switch command {
-	case "help":
+	case "help", "h", "-h", "--help":
 		Utility.Help("")
 	case "key":
 		Servers.GetPublicKey()
@@ -28,6 +28,10 @@ func ParseArgs(command string) {
 		Network.Scan()
 	case "count":
 		Machine.Count()
+	case "speedtest":
+		Network.SpeedTest()
+	case "hackernew", "hn":
+		Network.HackerNews()
 	default:
 		Utility.Help("Unkown Command")
 	}
