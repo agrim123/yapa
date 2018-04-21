@@ -14,7 +14,7 @@ func Ping() {
 	result, _ := exec.Command("ping", "8.8.8.8", "-c 5", "-i 3", "-w 1").Output()
 
 	if strings.Contains(string(result), "Destination Host Unreachable") {
-		fmt.Println(color.Red("I can't connect to internet!"))
+		log.Fatal(color.Red("I can't connect to internet!"))
 	} else {
 		fmt.Println(color.Green("We are online!"))
 	}
@@ -31,5 +31,12 @@ func Scan() {
 		log.Fatal(color.Red("Please provide a correct IP address."))
 	}
 
-	// Scan a host
+	// Todo: Scan a host
+}
+
+func SpeedTest() {
+	Ping()
+
+	fmt.Println("Testing Speed...")
+
 }

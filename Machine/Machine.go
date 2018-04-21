@@ -2,6 +2,7 @@ package Machine
 
 import (
 	"fmt"
+	"github.com/bclicn/color"
 	"log"
 	"os/exec"
 )
@@ -17,14 +18,14 @@ func RunCmd(cmd string) {
 
 func Cool() {
 	fmt.Println("Cooling off...")
+	// Todo
 	RunCmd("sudo service apache2 stop")
-
 }
 
 func Count() {
 	cmd := "ls | wc -l"
 
-	fmt.Println("Running: " + cmd)
+	fmt.Println(color.Blue("Running: ") + cmd)
 
 	RunCmd(cmd)
 }

@@ -20,21 +20,26 @@ func Help(endstring string) {
    `, VERSION)
 
 	const commands = `COMMANDS:
-   help    Display help
-   count   Count number of files/folders in directory
-   key     Print current user public key
-   ping    Check if online
-   list    List all servers listed in config.json
-   bye     Shutdown system
-   uptime  Display uptime of a server
+   help, h          Display help
+   count            Count number of files/folders in directory
+   key              Print current user public key
+   ping             Check if online
+   list             List all servers listed in config.json
+   bye              Shutdown system
+   uptime           Display uptime of a server
    cool
-   scan    Scan a hostname   
+   hackernews, hn   Display Hacker News
+   scan             Scan a hostname
+	`
+	const flags = `FLAGS:
+   -h, --help     Display help
 	`
 
 	fmt.Println(name)
 	fmt.Println(usage)
 	fmt.Println(version)
 	fmt.Println(commands)
+	fmt.Println(flags)
 
 	if endstring != "" {
 		log.Fatal(color.Red(endstring))
