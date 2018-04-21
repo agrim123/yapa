@@ -62,10 +62,11 @@ func HackerNews() {
 	var keys []int
 	json.Unmarshal(bodyBytes, &keys)
 
-	getTop10StoriesIds := keys[0:2]
+	getTop10StoriesIds := keys[0:10]
 
 	var stories []*story
 
+	// Todo: Use concurrency
 	for _, key := range getTop10StoriesIds {
 		keyURL := fmt.Sprintf("https://hacker-news.firebaseio.com/v0/item/%d.json", key)
 		res, err := http.Get(keyURL)

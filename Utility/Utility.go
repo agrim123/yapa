@@ -30,6 +30,8 @@ func Help(endstring string) {
    cool
    hackernews, hn   Display Hacker News
    scan             Scan a hostname
+   toss             flips a coin
+   dice             roll a dice
 	`
 	const flags = `FLAGS:
    -h, --help     Display help

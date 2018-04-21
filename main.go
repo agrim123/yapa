@@ -32,6 +32,10 @@ func ParseArgs(command string) {
 		Network.SpeedTest()
 	case "hackernew", "hn":
 		Network.HackerNews()
+	case "toss":
+		Machine.Toss()
+	case "dice":
+		Machine.Dice()
 	default:
 		Utility.Help("Unkown Command")
 	}
