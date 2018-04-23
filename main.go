@@ -36,6 +36,8 @@ func ParseArgs(command string) {
 		Machine.Toss()
 	case "dice":
 		Machine.Dice()
+	case "todo":
+		Machine.TodoCmd()
 	default:
 		Utility.Help("Unkown Command")
 	}
