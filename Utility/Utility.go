@@ -20,18 +20,25 @@ func Help(endstring string) {
    `, VERSION)
 
 	const commands = `COMMANDS:
-   help, h          Display help
-   count            Count number of files/folders in directory
-   key              Print current user public key
-   ping             Check if online
-   list             List all servers listed in config.json
-   bye              Shutdown system
-   uptime           Display uptime of a server
+   help, h                   Display help
+   count                     Count number of files/folders in directory
+   key                       Print current user public key
+   ping                      Check if online
+   list                      List all servers listed in config.json
+   bye                       Shutdown system
+   uptime                    Display uptime of a server
    cool
-   hackernews, hn   Display Hacker News
-   scan             Scan a hostname
-   toss             flips a coin
-   dice             roll a dice
+   hackernews, hn            Display Hacker News
+   scan                      Scan a hostname
+   toss                      Flips a coin
+   dice                      Roll a dice
+   todo                      Show list of todo's
+      list, l                Show list of todo's
+         completed, c        Show completed todo's  
+         incompleted, in     Show incomplete todo's
+      remove, r [id]         Remove a todo from list
+      add, a                 Add a new todo
+      complete, c [id]       Mark a todo as completed
 	`
 	const flags = `FLAGS:
    -h, --help     Display help

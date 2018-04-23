@@ -2,6 +2,7 @@ package main
 
 import (
 	"./Machine"
+	"./Machine/Todo"
 	"./Network"
 	"./Servers"
 	"./Utility"
@@ -37,7 +38,7 @@ func ParseArgs(command string) {
 	case "dice":
 		Machine.Dice()
 	case "todo":
-		Machine.TodoCmd()
+		Todo.Cmd()
 	default:
 		Utility.Help("Unkown Command")
 	}
