@@ -11,12 +11,22 @@ import (
 )
 
 func Ping() {
-	result, _ := exec.Command("ping", "8.8.8.8", "-c 5", "-i 3", "-w 1").Output()
+	hostname := "8.8.8.8"
+	message := "We are online!"
+	err := "I can't connect to internet!"
+
+	if len(os.Args) > 2 {
+		hostname = os.Args[2]
+		message = hostname + " is up."
+		err = hostname + " is down."
+	}
+
+	result, _ := exec.Command("ping", hostname, "-c 5", "-i 3", "-w 1").Output()
 
 	if strings.Contains(string(result), "Destination Host Unreachable") {
-		log.Fatal(color.Red("I can't connect to internet!"))
+		log.Fatal(color.Red(err))
 	} else {
-		fmt.Println(color.Green("We are online!"))
+		fmt.Println(color.Green(message))
 	}
 }
 
