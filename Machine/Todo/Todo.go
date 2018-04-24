@@ -1,6 +1,7 @@
 package Todo
 
 import (
+	"../../Utility"
 	"encoding/json"
 	"fmt"
 	"github.com/bclicn/color"
@@ -45,8 +46,7 @@ func ReadTodosFromFile() Todos {
 
 func CheckTodosLength(todos Todos) {
 	if len(todos) == 0 {
-		fmt.Println(color.Red("No todos found"))
-		os.Exit(1)
+		log.Fatal(color.Red("No todos found"))
 	}
 }
 
@@ -106,8 +106,8 @@ func remove(s Todos, i int) Todos {
 	return append(s[:i], s[i+1:]...)
 }
 
-func Remove() {
-	if len(os.Args) < 4 {
+func Remove(args []string) {
+	if len(args) == 1 {
 		log.Fatal(color.Red("Please provide id of todo to remove."))
 	}
 
@@ -116,13 +116,13 @@ func Remove() {
 
 	CheckTodosLength(todos)
 
-	todoToRemove, err := strconv.Atoi(os.Args[3])
+	todoToRemove, err := strconv.Atoi(args[1])
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if todoToRemove > len(todos) {
+	if todoToRemove >= len(todos) {
 		log.Fatal(color.Red("Couldn't find todo with that id."))
 	}
 
@@ -134,8 +134,8 @@ func Remove() {
 	fmt.Println(color.Green("Removed " + removedTodo.Title + " from store."))
 }
 
-func Complete() {
-	if len(os.Args) < 4 {
+func Complete(args []string) {
+	if len(args) == 1 {
 		log.Fatal(color.Red("Please provide id of todo to mark as completed."))
 	}
 
@@ -144,13 +144,13 @@ func Complete() {
 
 	CheckTodosLength(todos)
 
-	todoToComplete, err := strconv.Atoi(os.Args[3])
+	todoToComplete, err := strconv.Atoi(args[1])
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if todoToComplete > len(todos) {
+	if todoToComplete >= len(todos) {
 		log.Fatal(color.Red("Couldn't find todo with that id."))
 	}
 
@@ -161,7 +161,7 @@ func Complete() {
 	fmt.Println(color.Green("Marked " + todos[todoToComplete].Title + " as completed."))
 }
 
-func ListCompletedTodod() {
+func ListCompletedTodos() {
 
 }
 
@@ -169,24 +169,24 @@ func ListIncompleteTodos() {
 
 }
 
-func Cmd() {
-	args := os.Args
-
-	if len(args) < 3 {
+func Cmd(args []string) {
+	if len(args) == 1 {
 		List()
 		return
 	}
 
-	switch args[2] {
+	switch args[1] {
 	case "list", "l":
 		List()
 	case "add", "a":
 		Add()
 	case "remove", "r":
-		Remove()
+		Remove(args[1:])
 	case "complete", "c":
-		Complete()
+		Complete(args[1:])
 	default:
+		fmt.Print("COMMAND:")
+		fmt.Println(Utility.TodoHelp())
 		log.Fatal(color.Red("Unknown Command"))
 	}
 }

@@ -6,17 +6,42 @@ import (
 	"./Network"
 	"./Servers"
 	"./Utility"
+	"bufio"
+	"fmt"
 	"os"
+	"strings"
 )
 
-func ParseArgs(command string) {
-	switch command {
+func Forever() {
+	exitCmd := []string{"exit", "quit", "e", "q"}
+
+	for {
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Print("> ")
+		text, _ := reader.ReadString('\n')
+
+		// strip '\n'
+		text = strings.Replace(text, "\n", "", -1)
+
+		cmds := strings.Split(text, " ")
+
+		if Utility.ArrayContains(cmds[0], exitCmd) == true {
+			fmt.Println("Exiting forever mode.")
+			break
+		}
+
+		ParseArgs(cmds)
+	}
+}
+
+func ParseArgs(args []string) {
+	switch args[0] {
 	case "help", "h", "-h", "--help":
 		Utility.Help("")
 	case "key":
 		Servers.GetPublicKey()
 	case "ping":
-		Network.Ping()
+		Network.Ping(args[0:])
 	case "list":
 		Servers.ListServers()
 	case "bye":
@@ -38,7 +63,9 @@ func ParseArgs(command string) {
 	case "dice":
 		Machine.Dice()
 	case "todo":
-		Todo.Cmd()
+		Todo.Cmd(args[0:])
+	case "forever":
+		Forever()
 	default:
 		Utility.Help("Unkown Command")
 	}
@@ -51,5 +78,5 @@ func main() {
 
 	args := os.Args
 
-	ParseArgs(args[1])
+	ParseArgs(args[1:])
 }
