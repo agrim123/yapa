@@ -136,13 +136,13 @@ func Poweroff() {
 	}
 }
 
-func Uptime() {
-	if len(os.Args) < 4 {
+func Uptime(args []string) {
+	if len(args) < 3 {
 		log.Fatal(color.Red("Please supply a user and hostname to view uptime of server."))
 	}
 
-	user := os.Args[2]
-	hostname := os.Args[3]
+	user := args[0]
+	hostname := args[1]
 
 	PrepareSSH(user)
 	fmt.Println(executeCmd("uptime", hostname))

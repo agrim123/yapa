@@ -5,7 +5,6 @@ import (
 	"github.com/bclicn/color"
 	"log"
 	"net"
-	"os"
 	"os/exec"
 	"strings"
 )
@@ -30,12 +29,12 @@ func Ping(args []string) {
 	}
 }
 
-func Scan() {
-	if len(os.Args) < 3 {
+func Scan(args []string) {
+	if len(args) < 2 {
 		log.Fatal("Please supply a hostname to scan.")
 	}
 
-	hostname := net.ParseIP(os.Args[2])
+	hostname := net.ParseIP(args[1])
 
 	if hostname == nil {
 		log.Fatal(color.Red("Please provide a correct IP address."))

@@ -47,11 +47,11 @@ func ParseArgs(args []string) {
 	case "bye":
 		Servers.Poweroff()
 	case "uptime":
-		Servers.Uptime()
+		Servers.Uptime(args[0:])
 	case "cool":
 		Machine.Cool()
 	case "scan":
-		Network.Scan()
+		Network.Scan(args[0:])
 	case "count":
 		Machine.Count()
 	case "speedtest":
