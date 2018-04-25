@@ -44,7 +44,7 @@ func GetPublicKey() {
 	key := string(b)
 
 	// Print public key
-	fmt.Print(key)
+	fmt.Println(key)
 }
 
 func makeAuthFromAgent() (auth ssh.AuthMethod) {

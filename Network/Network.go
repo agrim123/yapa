@@ -10,13 +10,13 @@ import (
 	"strings"
 )
 
-func Ping() {
+func Ping(args []string) {
 	hostname := "8.8.8.8"
 	message := "We are online!"
 	err := "I can't connect to internet!"
 
-	if len(os.Args) > 2 {
-		hostname = os.Args[2]
+	if len(args) > 1 {
+		hostname = args[1]
 		message = hostname + " is up."
 		err = hostname + " is down."
 	}
@@ -45,7 +45,7 @@ func Scan() {
 }
 
 func SpeedTest() {
-	Ping()
+	// Ping()
 
 	fmt.Println("Testing Speed...")
 
