@@ -1,10 +1,13 @@
 package Machine
 
 import (
+	"../Utility"
 	"fmt"
 	"github.com/bclicn/color"
+	"io/ioutil"
 	"log"
 	"math/rand"
+	"os"
 	"os/exec"
 	"strconv"
 	"time"
@@ -53,4 +56,30 @@ func Dice() {
 	num := random(1, 6)
 
 	fmt.Println(color.Blue(strconv.Itoa(num)))
+}
+
+func Setup() {
+	Utility.CreateDir(Utility.DefaultYapaDir, "Found "+color.Blue(".yapa"), "Default directory doesnot exist. Creating a new one...", 0755)
+
+	Utility.CreateFile(Utility.DefaultYapaConfigPath, "Found "+color.Blue(".yapa/config.json"), "Default config doesnot exist. Creating a new one...")
+
+	SetupConfig()
+
+	if err != nil {
+		fmt.Print(err)
+	}
+
+	fmt.Println(string(b))
+}
+
+func SetupConfig() {
+
+}
+
+func Clean() {
+	var err = os.RemoveAll(Utility.UserHomeDir() + "/.yapa")
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }

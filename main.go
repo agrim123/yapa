@@ -38,6 +38,10 @@ func ParseArgs(args []string) {
 	switch args[0] {
 	case "help", "h", "-h", "--help":
 		Utility.Help("")
+	case "setup":
+		Machine.Setup()
+	case "clean":
+		Machine.Clean()
 	case "key":
 		Servers.GetPublicKey()
 	case "ping":

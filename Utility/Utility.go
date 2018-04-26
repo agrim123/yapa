@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/bclicn/color"
 	"log"
+	"os"
+	"os/user"
 )
 
 const VERSION = "v0.0.1"
@@ -67,3 +69,48 @@ func ArrayContains(a string, list []string) bool {
 	}
 	return false
 }
+
+func CreateFile(path string, found string, notfound string) {
+	// detect if file exists
+	var _, err = os.Stat(path)
+
+	// create file if not exists
+	if os.IsNotExist(err) {
+		fmt.Println(notfound)
+
+		var file, err = os.Create(path)
+		fmt.Println("Created " + color.Blue(path))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		defer file.Close()
+	} else {
+		fmt.Println(found)
+	}
+}
+
+func CreateDir(path string, found string, notfound string, perm int) {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		fmt.Println(notfound)
+		os.Mkdir(path, os.FileMode(perm))
+		fmt.Println("Created " + color.Blue(path))
+	} else {
+		fmt.Println(found)
+	}
+}
+
+func UserHomeDir() string {
+	// Get User current Directory
+	usr, err := user.Current()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return usr.HomeDir
+}
+
+var DefaultYapaDir = UserHomeDir() + "/.yapa"
+
+var DefaultYapaConfigPath = DefaultYapaDir + "/config.json"
