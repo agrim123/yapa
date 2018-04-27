@@ -7,7 +7,6 @@ import (
 	"github.com/bclicn/color"
 	"io/ioutil"
 	"log"
-	"os"
 	"strconv"
 	"time"
 )
@@ -21,19 +20,10 @@ type Todo struct {
 
 type Todos []*Todo
 
-func GetTodoFilePath() string {
-	// Get current directory
-	dir, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return dir + "/Machine/todo.json"
-}
-
 func ReadTodosFromFile() Todos {
-	// todo: Handle case when todo.json doesnot exist
-	b, err := ioutil.ReadFile(GetTodoFilePath())
+	Utility.CreateFile(Utility.DefaultYapaTodoJSONPath, "Found "+color.Blue("todo.json"), "Todo store does not exist. Creating a new one...")
+
+	b, err := ioutil.ReadFile(Utility.DefaultYapaTodoJSONPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -56,7 +46,7 @@ func SaveTodosToFile(todos Todos) {
 		log.Fatal(err)
 	}
 
-	ioutil.WriteFile(GetTodoFilePath(), todosJSON, 0644)
+	ioutil.WriteFile(Utility.DefaultYapaTodoJSONPath, todosJSON, 0644)
 }
 
 func List() {
@@ -184,6 +174,10 @@ func Cmd(args []string) {
 		Remove(args[1:])
 	case "complete", "c":
 		Complete(args[1:])
+	case "completed", "cp":
+		ListCompletedTodos()
+	case "incomplete", "incp":
+		ListIncompleteTodos()
 	default:
 		fmt.Print("COMMAND:")
 		fmt.Println(Utility.TodoHelp())

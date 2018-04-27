@@ -4,7 +4,6 @@ import (
 	"../Utility"
 	"fmt"
 	"github.com/bclicn/color"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
@@ -64,12 +63,6 @@ func Setup() {
 	Utility.CreateFile(Utility.DefaultYapaConfigPath, "Found "+color.Blue(".yapa/config.json"), "Default config doesnot exist. Creating a new one...")
 
 	SetupConfig()
-
-	if err != nil {
-		fmt.Print(err)
-	}
-
-	fmt.Println(string(b))
 }
 
 func SetupConfig() {

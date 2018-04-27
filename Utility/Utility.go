@@ -114,3 +114,5 @@ func UserHomeDir() string {
 var DefaultYapaDir = UserHomeDir() + "/.yapa"
 
 var DefaultYapaConfigPath = DefaultYapaDir + "/config.json"
+
+var DefaultYapaTodoJSONPath = DefaultYapaDir + "/todo.json"
