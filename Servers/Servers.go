@@ -1,6 +1,7 @@
 package Servers
 
 import (
+	"../Utility"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -12,12 +13,9 @@ import (
 	"net"
 	"os"
 	"os/exec"
-	"os/user"
 )
 
 var sshConfig *ssh.ClientConfig
-
-const CONFIG_PATH = "../Config/config.json"
 
 type Server struct {
 	Ip    string
@@ -29,14 +27,8 @@ type Config struct {
 }
 
 func GetPublicKey() {
-	// Get User current Directory
-	usr, err := user.Current()
-	if err != nil {
-		fmt.Println(err)
-	}
-
 	// Read public key
-	b, err := ioutil.ReadFile(usr.HomeDir + "/.ssh/id_rsa.pub")
+	b, err := ioutil.ReadFile(Utility.UserPublicKeyPath())
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -61,7 +53,7 @@ func PrepareSSH(user string) {
 	var auths []ssh.AuthMethod
 	var privateKey ssh.Signer
 
-	keyfile, err := ioutil.ReadFile(os.Getenv("HOME") + "/.ssh/id_rsa")
+	keyfile, err := ioutil.ReadFile(Utility.UserPrivateKeyPath())
 
 	if err == nil {
 		key, err := ssh.ParsePrivateKey(keyfile)
@@ -110,7 +102,7 @@ func executeCmd(cmd, hostname string) string {
 
 func ListServers() {
 	var conf Config
-	configFile, err := os.Open(CONFIG_PATH)
+	configFile, err := os.Open(Utility.DefaultYapaServerConfigPath)
 	if err != nil {
 		fmt.Println("opening config file", err.Error())
 	}
@@ -141,8 +133,8 @@ func Uptime(args []string) {
 		log.Fatal(color.Red("Please supply a user and hostname to view uptime of server."))
 	}
 
-	user := args[0]
-	hostname := args[1]
+	user := args[1]
+	hostname := args[2]
 
 	PrepareSSH(user)
 	fmt.Println(executeCmd("uptime", hostname))

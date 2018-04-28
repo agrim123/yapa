@@ -111,8 +111,18 @@ func UserHomeDir() string {
 	return usr.HomeDir
 }
 
+func UserPublicKeyPath() string {
+	return UserHomeDir() + "/.ssh/id_rsa.pub"
+}
+
+func UserPrivateKeyPath() string {
+	return UserHomeDir() + "/.ssh/id_rsa"
+}
+
 var DefaultYapaDir = UserHomeDir() + "/.yapa"
 
 var DefaultYapaConfigPath = DefaultYapaDir + "/config.json"
 
 var DefaultYapaTodoJSONPath = DefaultYapaDir + "/todo.json"
+
+var DefaultYapaServerConfigPath = DefaultYapaDir + "/servers.json"
