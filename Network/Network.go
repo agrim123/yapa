@@ -20,10 +20,12 @@ func Ping(args []string) {
 		err = hostname + " is down."
 	}
 
-	result, _ := exec.Command("ping", hostname, "-c 5", "-i 3", "-w 1").Output()
+	result, _ := exec.Command("ping", hostname, "-c 5", "-i 3", "-w 1").CombinedOutput()
 
 	if strings.Contains(string(result), "Destination Host Unreachable") {
 		log.Fatal(color.Red(err))
+	} else if strings.Contains(string(result), "unknown host") {
+		log.Fatal("Unknown host " + color.Red(hostname))
 	} else {
 		fmt.Println(color.Green(message))
 	}
