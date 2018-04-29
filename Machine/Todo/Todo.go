@@ -49,14 +49,18 @@ func SaveTodosToFile(todos Todos) {
 	ioutil.WriteFile(Utility.DefaultYapaTodoJSONPath, todosJSON, 0644)
 }
 
-func List() {
-	todos := ReadTodosFromFile()
-
+func ViewTodosInList(todos Todos) {
 	CheckTodosLength(todos)
 
 	for k, v := range todos {
 		fmt.Println(strconv.Itoa(k)+")", v.Title, v.Description, v.Time, v.Completed)
 	}
+}
+
+func List() {
+	todos := ReadTodosFromFile()
+
+	ViewTodosInList(todos)
 }
 
 func CreateNewTodo() *Todo {
@@ -152,11 +156,33 @@ func Complete(args []string) {
 }
 
 func ListCompletedTodos() {
+	// Load all todos from file
+	todos := ReadTodosFromFile()
 
+	var filteredTodos []*Todo
+
+	for _, v := range todos {
+		if v.Completed == true {
+			filteredTodos = append(filteredTodos, v)
+		}
+	}
+
+	ViewTodosInList(filteredTodos)
 }
 
 func ListIncompleteTodos() {
+	// Load all todos from file
+	todos := ReadTodosFromFile()
 
+	var filteredTodos []*Todo
+
+	for _, v := range todos {
+		if v.Completed == false {
+			filteredTodos = append(filteredTodos, v)
+		}
+	}
+
+	ViewTodosInList(filteredTodos)
 }
 
 func Cmd(args []string) {
