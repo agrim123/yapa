@@ -3,9 +3,9 @@ package Network
 import (
 	"encoding/json"
 	"fmt"
-	_ "github.com/bclicn/color"
+	"github.com/bclicn/color"
 	"io/ioutil"
-	_ "log"
+	"log"
 	"net/http"
 	"os/exec"
 	"runtime"
@@ -42,14 +42,37 @@ func open(url string) error {
 	return exec.Command(cmd, args...).Start()
 }
 
+func GetArticleDetails(id int, ch chan<- *story) {
+	keyURL := fmt.Sprintf("https://hacker-news.firebaseio.com/v0/item/%d.json", id)
+	res, err := http.Get(keyURL)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return
+	}
+
+	s := &story{}
+	err = json.Unmarshal(body, s)
+	if err != nil {
+		return
+	}
+
+	ch <- s
+}
+
 func HackerNews() {
 	fmt.Println("Fetching Hacker News articles...")
 
 	// Get ids of top stories
 	rs, err := http.Get("https://hacker-news.firebaseio.com/v0/topstories.json")
-	// Process response
 	if err != nil {
-		panic(err) // More idiomatic way would be to print the error and die unless it's a serious error
+		log.Fatal(err)
 	}
 
 	defer rs.Body.Close()
@@ -64,41 +87,22 @@ func HackerNews() {
 
 	getTop10StoriesIds := keys[0:10]
 
-	var stories []*story
+	ch := make(chan *story)
 
-	// Todo: Use concurrency
 	for _, key := range getTop10StoriesIds {
-		keyURL := fmt.Sprintf("https://hacker-news.firebaseio.com/v0/item/%d.json", key)
-		res, err := http.Get(keyURL)
-		// Process response
-		if err != nil {
-			panic(err) // More idiomatic way would be to print the error and die unless it's a serious error
-		}
-
-		defer res.Body.Close()
-
-		body, err := ioutil.ReadAll(res.Body)
-		if err != nil {
-			return
-		}
-
-		s := &story{}
-		err = json.Unmarshal(body, s)
-		if err != nil {
-			return
-		}
-
-		stories = append(stories, s)
+		go GetArticleDetails(key, ch)
 	}
 
-	for k, v := range stories {
-		fmt.Println(k, v.Title, v.URL, v.Score, time.Unix(v.Time, 0), v.Author)
+	j := 0
+	for i := range ch {
+		fmt.Println(j, ")", color.Blue(i.Title), i.URL, i.Score, time.Unix(i.Time, 0))
+		j += 1
 	}
 
-	var i int
+	var k int
 
 	fmt.Printf("Which one to read? ")
-	fmt.Scanf("%d", &i)
-
-	open(stories[i].URL)
+	fmt.Scanf("%d", &k)
+	return
+	// open(ch[i].URL)
 }
