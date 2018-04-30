@@ -1,11 +1,8 @@
 package Todo
 
 import (
-	"../../Utility"
-	"encoding/json"
 	"fmt"
 	"github.com/bclicn/color"
-	"io/ioutil"
 	"log"
 	"strconv"
 	"time"
@@ -19,43 +16,6 @@ type Todo struct {
 }
 
 type Todos []*Todo
-
-func ReadTodosFromFile() Todos {
-	Utility.CreateFile(Utility.DefaultYapaTodoJSONPath, "Found "+color.Blue("todo.json"), "Todo store does not exist. Creating a new one...")
-
-	b, err := ioutil.ReadFile(Utility.DefaultYapaTodoJSONPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var todos Todos
-	json.Unmarshal(b, &todos)
-
-	return todos
-}
-
-func CheckTodosLength(todos Todos) {
-	if len(todos) == 0 {
-		log.Fatal(color.Red("No todos found"))
-	}
-}
-
-func SaveTodosToFile(todos Todos) {
-	todosJSON, err := json.Marshal(todos)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	ioutil.WriteFile(Utility.DefaultYapaTodoJSONPath, todosJSON, 0644)
-}
-
-func ViewTodosInList(todos Todos) {
-	CheckTodosLength(todos)
-
-	for k, v := range todos {
-		fmt.Println(strconv.Itoa(k)+")", v.Title, v.Description, v.Time, v.Completed)
-	}
-}
 
 func List() {
 	todos := ReadTodosFromFile()
@@ -72,12 +32,7 @@ func CreateNewTodo() *Todo {
 	fmt.Printf(color.Blue("Description: "))
 	fmt.Scanf("%s", &description)
 
-	todo := new(Todo)
-
-	todo.Title = title
-	todo.Description = description
-	todo.Time = time.Now().Unix()
-	todo.Completed = false
+	todo := &Todo{title, description, time.Now().Unix(), false}
 
 	return todo
 }
@@ -94,10 +49,6 @@ func Add() {
 	SaveTodosToFile(todos)
 
 	fmt.Println(color.Green("Saved todo to list."))
-}
-
-func remove(s Todos, i int) Todos {
-	return append(s[:i], s[i+1:]...)
 }
 
 func Remove(args []string) {
@@ -183,30 +134,4 @@ func ListIncompleteTodos() {
 	}
 
 	ViewTodosInList(filteredTodos)
-}
-
-func Cmd(args []string) {
-	if len(args) == 1 {
-		List()
-		return
-	}
-
-	switch args[1] {
-	case "list", "l":
-		List()
-	case "add", "a":
-		Add()
-	case "remove", "r":
-		Remove(args[1:])
-	case "complete", "c":
-		Complete(args[1:])
-	case "completed", "cp":
-		ListCompletedTodos()
-	case "incomplete", "incp":
-		ListIncompleteTodos()
-	default:
-		fmt.Print("COMMAND:")
-		fmt.Println(Utility.TodoHelp())
-		log.Fatal(color.Red("Unknown Command"))
-	}
 }
