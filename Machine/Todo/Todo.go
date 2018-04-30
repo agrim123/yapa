@@ -74,7 +74,7 @@ func Remove(args []string) {
 	removedTodo := todos[todoToRemove]
 
 	// Remove from file
-	SaveTodosToFile(remove(todos, todoToRemove))
+	SaveTodosToFile(RemoveTodo(todos, todoToRemove))
 
 	fmt.Println(color.Green("Removed " + removedTodo.Title + " from store."))
 }

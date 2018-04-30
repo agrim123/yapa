@@ -11,8 +11,6 @@ import (
 )
 
 func ReadTodosFromFile() Todos {
-	Utility.CreateFile(Utility.DefaultYapaTodoJSONPath, "Found "+color.Blue("todo.json"), "Todo store does not exist. Creating a new one...")
-
 	b, err := ioutil.ReadFile(Utility.DefaultYapaTodoJSONPath)
 	if err != nil {
 		log.Fatal(err)
@@ -47,6 +45,6 @@ func ViewTodosInList(todos Todos) {
 	}
 }
 
-func remove(s Todos, i int) Todos {
+func RemoveTodo(s Todos, i int) Todos {
 	return append(s[:i], s[i+1:]...)
 }
