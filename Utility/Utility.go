@@ -1,8 +1,10 @@
 package Utility
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/bclicn/color"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
@@ -72,7 +74,7 @@ func ArrayContains(a string, list []string) bool {
 	return false
 }
 
-func CreateFile(path string, found string, notfound string) {
+func CreateFileIfNotExists(path string, found string, notfound string) {
 	// detect if file exists
 	var _, err = os.Stat(path)
 
@@ -93,7 +95,7 @@ func CreateFile(path string, found string, notfound string) {
 	}
 }
 
-func CreateDir(path string, found string, notfound string, perm int) {
+func CreateDirIfNotExists(path string, found string, notfound string, perm int) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fmt.Println(notfound)
 		os.Mkdir(path, os.FileMode(perm))
@@ -121,10 +123,58 @@ func UserPrivateKeyPath() string {
 	return UserHomeDir() + "/.ssh/id_rsa"
 }
 
-var DefaultYapaDir = UserHomeDir() + "/.yapa"
+type YapaConfig struct {
+	Username string `json:"username"`
+	System   string `json:"system"`
+}
 
-var DefaultYapaConfigPath = DefaultYapaDir + "/config.json"
+func ReadYapaConfig() {
+	SetYapaConfigPath()
 
-var DefaultYapaTodoJSONPath = DefaultYapaDir + "/todo.json"
+	b, err := ioutil.ReadFile(DefaultYapaConfigPath)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-var DefaultYapaServerConfigPath = DefaultYapaDir + "/servers.json"
+	var config YapaConfig
+	json.Unmarshal(b, &config)
+
+	fmt.Println(config)
+}
+
+const (
+	YapaDir = ".yapa"
+
+	ConfigJSON = "config.json"
+
+	TodoJSON = "todo.json"
+
+	ServersJSON = "servers.json"
+)
+
+// Variables related to yapa
+var (
+	DefaultYapaDir = UserHomeDir() + "/" + YapaDir
+
+	DefaultYapaConfigPath = DefaultYapaDir + "/" + ConfigJSON
+
+	DefaultYapaTodoJSONPath = DefaultYapaDir + "/" + TodoJSON
+
+	DefaultYapaServerConfigPath = DefaultYapaDir + "/" + ServersJSON
+)
+
+func SetYapaDir() {
+	CreateDirIfNotExists(DefaultYapaDir, "Found "+color.Blue(YapaDir), "Default yapa directory doesnot exist. Creating a new one...", 0775)
+}
+
+func SetYapaConfigPath() {
+	CreateFileIfNotExists(DefaultYapaConfigPath, "Found "+color.Blue(ConfigJSON), "Default config doesnot exist. Creating a new one...")
+}
+
+func SetYapaServerConfigPath() {
+	CreateFileIfNotExists(DefaultYapaServerConfigPath, "Found "+color.Blue(ServersJSON), "Default server config doesnot exist. Creating a new one...")
+}
+
+func SetYapaTodoJSONPath() {
+	CreateFileIfNotExists(DefaultYapaTodoJSONPath, "Found "+color.Blue(TodoJSON), "Todo store does not exist. Creating a new one...")
+}

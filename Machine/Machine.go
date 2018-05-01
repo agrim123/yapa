@@ -58,9 +58,13 @@ func Dice() {
 }
 
 func Setup() {
-	Utility.CreateDir(Utility.DefaultYapaDir, "Found "+color.Blue(".yapa"), "Default directory doesnot exist. Creating a new one...", 0755)
+	Utility.SetYapaDir()
 
-	Utility.CreateFile(Utility.DefaultYapaConfigPath, "Found "+color.Blue(".yapa/config.json"), "Default config doesnot exist. Creating a new one...")
+	Utility.SetYapaConfigPath()
+
+	Utility.SetYapaServerConfigPath()
+
+	Utility.SetYapaTodoJSONPath()
 
 	SetupConfig()
 }
@@ -71,8 +75,15 @@ func SetupConfig() {
 
 func Clean() {
 	var err = os.RemoveAll(Utility.UserHomeDir() + "/.yapa")
+	fmt.Println(color.Blue("Removing .yapa..."))
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println(color.Green("Cleaned up all config."))
+}
+
+func Profile() {
+	Utility.ReadYapaConfig()
 }

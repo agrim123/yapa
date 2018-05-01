@@ -42,6 +42,8 @@ func ParseArgs(args []string) {
 		Machine.Setup()
 	case "clean":
 		Machine.Clean()
+	case "show", "profile":
+		Machine.Profile()
 	case "key":
 		Servers.GetPublicKey()
 	case "ping":
