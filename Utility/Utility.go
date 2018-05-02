@@ -10,61 +10,6 @@ import (
 	"os/user"
 )
 
-const VERSION = "v0.0.1"
-
-func Help(endstring string) {
-	const name = `NAME:
-   yapa - Yet Another Personal Assistant
-	`
-	const usage = `USAGE:
-   yapa [global options] command [command options] [arguments...]
-	`
-	version := fmt.Sprintf(`VERSION:
-   %s
-   `, VERSION)
-
-	const commands = `COMMANDS:
-   setup                     Setup a new yapa profile
-   clean                     Clear all yapa settings
-   count                     Count number of files/folders in directory
-   key                       Get current user's public key
-   ping [HOSTNAME]           Check if host is online
-   list                      List all servers listed in config.json
-   bye                       Shutdown system
-   uptime [USER] [IP]        Display uptime of a server
-   cool
-   hackernews, hn            Display Hacker News
-   scan                      Scan a hostname
-   toss                      Flips a coin
-   dice                      Roll a dice
-   help, h                   Display help`
-	const flags = `GLOBAL OPTIONS:
-   -h, --help     Display help
-	`
-
-	fmt.Println(name)
-	fmt.Println(usage)
-	fmt.Println(version)
-	fmt.Println(commands + TodoHelp())
-	fmt.Println(flags)
-
-	if endstring != "" {
-		log.Fatal(color.Red(endstring))
-	}
-}
-
-func TodoHelp() string {
-	return `
-   todo                      Show list of todo's
-      list, l                Show list of todo's
-         completed, c        Show completed todo's  
-         incompleted, in     Show incomplete todo's
-      remove, r [id]         Remove a todo from list
-      add, a                 Add a new todo
-      complete, c [id]       Mark a todo as completed
-	`
-}
-
 func ArrayContains(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
@@ -105,6 +50,10 @@ func CreateDirIfNotExists(path string, found string, notfound string, perm int) 
 	}
 }
 
+func WriteToFile(path string, contents []byte) {
+	ioutil.WriteFile(path, contents, 0644)
+}
+
 func UserHomeDir() string {
 	// Get User current Directory
 	usr, err := user.Current()
@@ -123,12 +72,7 @@ func UserPrivateKeyPath() string {
 	return UserHomeDir() + "/.ssh/id_rsa"
 }
 
-type YapaConfig struct {
-	Username string `json:"username"`
-	System   string `json:"system"`
-}
-
-func ReadYapaConfig() {
+func ReadYapaConfig() (config *YapaConfig) {
 	SetYapaConfigPath()
 
 	b, err := ioutil.ReadFile(DefaultYapaConfigPath)
@@ -136,32 +80,10 @@ func ReadYapaConfig() {
 		log.Fatal(err)
 	}
 
-	var config YapaConfig
 	json.Unmarshal(b, &config)
 
-	fmt.Println(config)
+	return
 }
-
-const (
-	YapaDir = ".yapa"
-
-	ConfigJSON = "config.json"
-
-	TodoJSON = "todo.json"
-
-	ServersJSON = "servers.json"
-)
-
-// Variables related to yapa
-var (
-	DefaultYapaDir = UserHomeDir() + "/" + YapaDir
-
-	DefaultYapaConfigPath = DefaultYapaDir + "/" + ConfigJSON
-
-	DefaultYapaTodoJSONPath = DefaultYapaDir + "/" + TodoJSON
-
-	DefaultYapaServerConfigPath = DefaultYapaDir + "/" + ServersJSON
-)
 
 func SetYapaDir() {
 	CreateDirIfNotExists(DefaultYapaDir, "Found "+color.Blue(YapaDir), "Default yapa directory doesnot exist. Creating a new one...", 0775)
@@ -177,4 +99,51 @@ func SetYapaServerConfigPath() {
 
 func SetYapaTodoJSONPath() {
 	CreateFileIfNotExists(DefaultYapaTodoJSONPath, "Found "+color.Blue(TodoJSON), "Todo store does not exist. Creating a new one...")
+}
+
+func DisplayYapaConfig(config *YapaConfig) {
+	fmt.Println(color.Blue("Username:"), config.Username)
+	fmt.Println(color.Blue("System:"), config.System)
+}
+
+func SetupProfile() {
+	oldConfig := ReadYapaConfig()
+
+	if oldConfig != nil {
+		fmt.Println("A yapa profile already exists:")
+
+		DisplayYapaConfig(oldConfig)
+
+		var k string
+
+		fmt.Printf("Do you want to reset you profile? (Y/N): ")
+		fmt.Scanf("%s", &k)
+
+		if k == "Y" || k == "yes" || k == "y" {
+			fmt.Println(color.Green("Overwriting your previous profile..."))
+		} else {
+			fmt.Println(color.Green("Going with the old profile."))
+			return
+		}
+	} else {
+		fmt.Println(color.Green("Setting up your new yapa profile..."))
+	}
+
+	var username string
+
+	fmt.Printf(color.Blue("Username: "))
+	fmt.Scanf("%s", &username)
+
+	system, _ := os.Hostname()
+
+	config := &YapaConfig{username, system}
+
+	configJSON, err := json.Marshal(config)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	WriteToFile(DefaultYapaConfigPath, configJSON)
+
+	fmt.Println(color.Green("Saved Profile"))
 }

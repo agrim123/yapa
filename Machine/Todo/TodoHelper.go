@@ -34,7 +34,7 @@ func SaveTodosToFile(todos Todos) {
 		log.Fatal(err)
 	}
 
-	ioutil.WriteFile(Utility.DefaultYapaTodoJSONPath, todosJSON, 0644)
+	Utility.WriteToFile(Utility.DefaultYapaTodoJSONPath, todosJSON)
 }
 
 func ViewTodosInList(todos Todos) {

@@ -1,7 +1,7 @@
 package Todo
 
 import (
-	"../../Utility"
+	"../../Help"
 	"fmt"
 	"github.com/bclicn/color"
 	"log"
@@ -28,7 +28,7 @@ func Cmd(args []string) {
 		ListIncompleteTodos()
 	default:
 		fmt.Print("COMMAND:")
-		fmt.Println(Utility.TodoHelp())
+		fmt.Println(Help.Todo())
 		log.Fatal(color.Red("Unknown Command"))
 	}
 }

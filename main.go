@@ -1,6 +1,7 @@
 package main
 
 import (
+	"./Help"
 	"./Machine"
 	"./Machine/Todo"
 	"./Network"
@@ -37,7 +38,7 @@ func Forever() {
 func ParseArgs(args []string) {
 	switch args[0] {
 	case "help", "h", "-h", "--help":
-		Utility.Help("")
+		Help.Global("")
 	case "setup":
 		Machine.Setup()
 	case "clean":
@@ -73,13 +74,13 @@ func ParseArgs(args []string) {
 	case "forever":
 		Forever()
 	default:
-		Utility.Help("Unkown Command")
+		Help.Global("Unkown Command")
 	}
 }
 
 func main() {
 	if len(os.Args) < 2 {
-		Utility.Help("No arguments specified.")
+		Help.Global("No arguments specified.")
 	}
 
 	args := os.Args

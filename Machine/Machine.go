@@ -66,11 +66,7 @@ func Setup() {
 
 	Utility.SetYapaTodoJSONPath()
 
-	SetupConfig()
-}
-
-func SetupConfig() {
-
+	Utility.SetupProfile()
 }
 
 func Clean() {
@@ -85,5 +81,7 @@ func Clean() {
 }
 
 func Profile() {
-	Utility.ReadYapaConfig()
+	config := Utility.ReadYapaConfig()
+
+	Utility.DisplayYapaConfig(config)
 }
