@@ -13,6 +13,7 @@ import (
 	"net"
 	"os"
 	"os/exec"
+	"strconv"
 )
 
 var sshConfig *ssh.ClientConfig
@@ -22,9 +23,7 @@ type Server struct {
 	Users []string
 }
 
-type Config struct {
-	Servers []Server
-}
+type Servers []*Server
 
 func GetPublicKey() {
 	// Read public key
@@ -78,6 +77,8 @@ func PrepareSSH(user string) {
 }
 
 func executeCmd(cmd, hostname string) string {
+	fmt.Println(color.Green("Running " + cmd + " on " + sshConfig.User + "@" + hostname))
+
 	client, err := ssh.Dial("tcp", hostname+":22", sshConfig)
 	if err != nil {
 		log.Fatalln("Failed to dial:", err)
@@ -100,24 +101,25 @@ func executeCmd(cmd, hostname string) string {
 	return stdoutBuf.String()
 }
 
-func ListServers() {
-	var conf Config
+func GetServers() (servers []Server) {
 	configFile, err := os.Open(Utility.DefaultYapaServerConfigPath)
 	if err != nil {
 		fmt.Println("opening config file", err.Error())
 	}
 
 	jsonParser := json.NewDecoder(configFile)
-	if err = jsonParser.Decode(&conf); err != nil {
+	if err = jsonParser.Decode(&servers); err != nil {
 		fmt.Println("parsing config file", err.Error())
 	}
 
-	servers := conf.Servers
-	var pointersToServers []*Server
+	return
+}
+
+func ListServers() {
+	servers := GetServers()
 
 	for i, x := range servers {
-		pointersToServers = append(pointersToServers, &x)
-		fmt.Println(i+1, ")", x.Ip, x.Users)
+		fmt.Println(i, ")", x.Ip, x.Users)
 	}
 }
 
@@ -126,6 +128,19 @@ func Poweroff() {
 	if err := cmd.Run(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func ParseHostname(hostname string) string {
+	parsed := net.ParseIP(hostname)
+
+	if parsed == nil {
+		// Look in store
+		servers := GetServers()
+		index, _ := strconv.Atoi(hostname)
+		return servers[index].Ip
+	}
+
+	return parsed.String()
 }
 
 func Uptime(args []string) {
@@ -137,5 +152,5 @@ func Uptime(args []string) {
 	hostname := args[2]
 
 	PrepareSSH(user)
-	fmt.Println(executeCmd("uptime", hostname))
+	fmt.Println(executeCmd("uptime", ParseHostname(hostname)))
 }
