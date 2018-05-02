@@ -38,7 +38,7 @@ func GetPublicKey() {
 	fmt.Println(key)
 }
 
-func makeAuthFromAgent() (auth ssh.AuthMethod) {
+func MakeAuthFromAgent() (auth ssh.AuthMethod) {
 	conn, err := net.Dial("unix", os.Getenv("SSH_AUTH_SOCK"))
 	if err != nil {
 		log.Fatal(err)
@@ -66,7 +66,7 @@ func PrepareSSH(user string) {
 			ssh.PublicKeys(privateKey),
 		}
 	} else {
-		auths = []ssh.AuthMethod{makeAuthFromAgent()}
+		auths = []ssh.AuthMethod{MakeAuthFromAgent()}
 	}
 
 	sshConfig = &ssh.ClientConfig{
