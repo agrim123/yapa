@@ -1,6 +1,8 @@
-hash: 227b8973cf10f9a40c67016690d7c41a1ee453f53ff7889897be0f7b99cc2de4
-updated: 2018-04-16T14:05:50.593113305+05:30
+hash: e8fa60b7779c67a574cb822388733187e1ee322105f5dd34c05ef2adf5c2c54f
+updated: 2018-04-26T01:33:16.752578462+05:30
 imports:
+- name: github.com/bclicn/color
+  version: 4c02eff8a28c1add99b3b5b238c165056c3bea8e
 - name: golang.org/x/crypto
   version: d6449816ce06963d9d136eee5a56fca5b0616e7e
   subpackages:
