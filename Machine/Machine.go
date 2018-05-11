@@ -13,6 +13,8 @@ import (
 )
 
 func RunCmd(cmd string) {
+	fmt.Println(color.LightPurple("Running: ") + color.Blue(cmd))
+
 	out, err := exec.Command("bash", "-c", cmd).Output()
 	if err != nil {
 		log.Fatal(err)
@@ -28,11 +30,7 @@ func Cool() {
 }
 
 func Count() {
-	cmd := "ls | wc -l"
-
-	fmt.Println(color.Blue("Running: ") + cmd)
-
-	RunCmd(cmd)
+	RunCmd("ls | wc -l")
 }
 
 func random(min int, max int) int {
@@ -84,4 +82,24 @@ func Profile() {
 	config := Utility.ReadYapaConfig()
 
 	Utility.DisplayYapaConfig(config)
+}
+
+func AllUsers() {
+	RunCmd("awk -F':' '{ print $1}' /etc/passwd")
+}
+
+func InvestigateUser(user string) {
+	if user == "" {
+		log.Fatal(color.Red("No user to investigate."))
+	}
+
+	RunCmd("id " + user)
+
+	RunCmd("groups " + user)
+
+	RunCmd("< /etc/passwd grep " + user)
+
+	RunCmd("< /etc/group grep " + user)
+
+	RunCmd("finger " + user)
 }

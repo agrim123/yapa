@@ -73,6 +73,10 @@ func ParseArgs(args []string) {
 		Todo.Cmd(args[0:])
 	case "forever":
 		Forever()
+	case "all-users", "allusr":
+		Machine.AllUsers()
+	case "investigate", "inv":
+		Machine.InvestigateUser(args[1])
 	default:
 		Help.Global("Unkown Command")
 	}
