@@ -7,30 +7,18 @@ import (
 	"log"
 	"math/rand"
 	"os"
-	"os/exec"
 	"strconv"
 	"time"
 )
 
-func RunCmd(cmd string) {
-	fmt.Println(color.LightPurple("Running: ") + color.Blue(cmd))
-
-	out, err := exec.Command("bash", "-c", cmd).Output()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(string(out))
-}
-
 func Cool() {
 	fmt.Println("Cooling off...")
 	// Todo
-	RunCmd("sudo service apache2 stop")
+	Utility.RunCmd("sudo service apache2 stop")
 }
 
 func Count() {
-	RunCmd("ls | wc -l")
+	Utility.RunCmd("ls | wc -l")
 }
 
 func random(min int, max int) int {
@@ -85,7 +73,7 @@ func Profile() {
 }
 
 func AllUsers() {
-	RunCmd("awk -F':' '{ print $1}' /etc/passwd")
+	Utility.RunCmd("awk -F':' '{ print $1}' /etc/passwd")
 }
 
 func InvestigateUser(user string) {
@@ -93,13 +81,13 @@ func InvestigateUser(user string) {
 		log.Fatal(color.Red("No user to investigate."))
 	}
 
-	RunCmd("id " + user)
+	Utility.RunCmd("id " + user)
 
-	RunCmd("groups " + user)
+	Utility.RunCmd("groups " + user)
 
-	RunCmd("< /etc/passwd grep " + user)
+	Utility.RunCmd("< /etc/passwd grep " + user)
 
-	RunCmd("< /etc/group grep " + user)
+	Utility.RunCmd("< /etc/group grep " + user)
 
-	RunCmd("finger " + user)
+	Utility.RunCmd("finger " + user)
 }

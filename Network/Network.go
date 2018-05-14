@@ -1,6 +1,7 @@
 package Network
 
 import (
+	"../Utility"
 	"fmt"
 	"github.com/bclicn/color"
 	"log"
@@ -50,4 +51,8 @@ func SpeedTest() {
 
 	fmt.Println("Testing Speed...")
 
+}
+
+func PublicIP() {
+	Utility.RunCmd("dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'\"' '{ print $2}'")
 }

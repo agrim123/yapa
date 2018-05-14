@@ -7,8 +7,20 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"os/user"
 )
+
+func RunCmd(cmd string) {
+	fmt.Println(color.LightPurple("Running: ") + color.Blue(cmd))
+
+	out, err := exec.Command("bash", "-c", cmd).Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(string(out))
+}
 
 func ArrayContains(a string, list []string) bool {
 	for _, b := range list {

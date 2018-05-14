@@ -77,6 +77,8 @@ func ParseArgs(args []string) {
 		Machine.AllUsers()
 	case "investigate", "inv":
 		Machine.InvestigateUser(args[1])
+	case "ip":
+		Network.PublicIP()
 	default:
 		Help.Global("Unkown Command")
 	}
