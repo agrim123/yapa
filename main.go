@@ -9,12 +9,14 @@ import (
 	"./Utility"
 	"bufio"
 	"fmt"
+	"github.com/bclicn/color"
 	"os"
 	"strings"
 )
 
 func Forever() {
 	exitCmd := []string{"exit", "quit", "e", "q"}
+	fmt.Println(color.Blue("You have entered forever mode. To quit at anytime, type any of the following commands: exit, quit, e, q"))
 
 	for {
 		reader := bufio.NewReader(os.Stdin)
@@ -26,20 +28,24 @@ func Forever() {
 
 		cmds := strings.Split(text, " ")
 
+		if len(cmds) < 1 || len(cmds[0]) == 0 {
+			continue
+		}
+
 		if Utility.ArrayContains(cmds[0], exitCmd) == true {
 			fmt.Println("Exiting forever mode.")
 			break
 		}
 
-		ParseArgs(cmds)
+		ParseArgs(cmds, true)
 	}
 }
 
-func ParseArgs(args []string) {
+func ParseArgs(args []string, forever bool) {
 	switch args[0] {
 	case "help", "h", "-h", "--help":
-		Help.Global("")
-	case "setup":
+		Help.Global("", forever)
+	case "setup", "init":
 		Machine.Setup()
 	case "clean":
 		Machine.Clean()
@@ -63,7 +69,7 @@ func ParseArgs(args []string) {
 		Machine.Count()
 	case "speedtest":
 		Network.SpeedTest()
-	case "hackernew", "hn":
+	case "hackernews", "hn":
 		Network.HackerNews()
 	case "toss":
 		Machine.Toss()
@@ -80,16 +86,16 @@ func ParseArgs(args []string) {
 	case "ip":
 		Network.PublicIP()
 	default:
-		Help.Global("Unkown Command")
+		Help.Global("Unkown Command", forever)
 	}
 }
 
 func main() {
 	if len(os.Args) < 2 {
-		Help.Global("No arguments specified.")
+		Help.Global("No arguments specified.", false)
 	}
 
 	args := os.Args
 
-	ParseArgs(args[1:])
+	ParseArgs(args[1:], false)
 }

@@ -8,23 +8,42 @@ import (
 
 const VERSION = "v0.0.1"
 
-func Global(endstring string) {
+func Global(endstring string, forever bool) {
+	if !forever {
+		BasicInfo()
+	}
+
+	Commands()
+	Flags()
+
+	if endstring != "" && !forever {
+		log.Fatal(color.Red(endstring))
+	}
+}
+
+func BasicInfo() {
 	const name = `NAME:
    yapa - Yet Another Personal Assistant
-	`
+   `
 	const usage = `USAGE:
    yapa [global options] command [command options] [arguments...]
-	`
+   `
 	version := fmt.Sprintf(`VERSION:
    %s
    `, VERSION)
 
+	fmt.Println(name)
+	fmt.Println(usage)
+	fmt.Println(version)
+}
+
+func Commands() {
 	const commands = `COMMANDS:
    setup                        Setup a new yapa profile
    clean                        Clear all yapa settings
    count                        Count number of files/folders in directory
    key                          Get current user's public key
-   ping [HOSTNAME]              Check if host is online
+   ping [HOSTNAME]              Check if host is online. Defaults to 8.8.8.8.
    list                         List all servers listed in config.json
    bye                          Shutdown system
    uptime [USER] [IP]           Display uptime of a server
@@ -34,19 +53,8 @@ func Global(endstring string) {
    toss                         Flips a coin
    dice                         Roll a dice
    help, h                      Display help`
-	const flags = `GLOBAL OPTIONS:
-   -h, --help     Display help
-	`
 
-	fmt.Println(name)
-	fmt.Println(usage)
-	fmt.Println(version)
 	fmt.Println(commands + Todo() + UserInfoHelp())
-	fmt.Println(flags)
-
-	if endstring != "" {
-		log.Fatal(color.Red(endstring))
-	}
 }
 
 func Todo() string {
@@ -66,4 +74,12 @@ func UserInfoHelp() string {
    all-users, allusr            List all users
    investigate, inv [username]  Get detail of the user specified
    `
+}
+
+func Flags() {
+	const flags = `GLOBAL OPTIONS:
+   -h, --help     Display help
+   `
+
+	fmt.Println(flags)
 }

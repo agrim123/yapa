@@ -18,7 +18,7 @@ func Cool() {
 }
 
 func Count() {
-	Utility.RunCmd("ls | wc -l")
+	Utility.RunCmd("ls -la | wc -l")
 }
 
 func random(min int, max int) int {
