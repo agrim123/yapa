@@ -1,6 +1,12 @@
 # Yet Another Personal Assistant (YAPA)
 
+<img src="0.png" alt="Drawing" width="200px" />
+
 A small utility tool to speed up and ease your day to day work.
+
+## Install
+
+
 
 ## Setup
 
