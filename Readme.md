@@ -7,7 +7,8 @@ A small utility tool to speed up and ease your day to day work.
 
 ## Install
 
-
+- Clone the repo.
+- Run `glide install` to install dependencies.
 
 ## Setup
 
