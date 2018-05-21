@@ -4,6 +4,7 @@
 
 A small utility tool to speed up and ease your day to day work.
 
+
 ## Install
 
 
@@ -134,6 +135,8 @@ Running `yapa clean` will remove all your yapa configs.
 ## Contribution
 
 Feature requests and bug fixes are welcome. :smile:
+
+PS: Criticism is also welcome :sweat_smile:
 
 ## License
 
