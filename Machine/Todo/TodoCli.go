@@ -28,10 +28,11 @@ func Cmd(args []string) {
 		ListIncompleteTodos()
 	case "h", "help":
 		Help.BasicInfo()
-		Help.Todo()
-	default:
 		fmt.Print("COMMAND:")
-		Help.Todo()
+		fmt.Println(Help.Todo())
+	default:
+		fmt.Println("COMMAND:")
+		fmt.Println(Help.Todo())
 		log.Fatal(color.Red("Unknown Command"))
 	}
 }

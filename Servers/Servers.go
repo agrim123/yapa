@@ -165,7 +165,13 @@ func Init(args []string) {
 	switch args[0] {
 	case "list":
 		ListServers()
+	case "h", "help":
+		Help.BasicInfo()
+		fmt.Print("COMMAND:")
+		fmt.Println(Help.Server())
 	default:
-		Help.Server()
+		fmt.Println("COMMAND:")
+		fmt.Println(Help.Server())
+		log.Fatal(color.Red("Unknown Command"))
 	}
 }

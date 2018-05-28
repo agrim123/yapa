@@ -58,41 +58,35 @@ func Commands() {
 
 func DetailedHelp() {
 	Commands()
-	Todo()
-	UserInfoHelp()
-	Server()
+	fmt.Println(Todo() + UserInfoHelp() + Server())
 	Flags()
 }
 
-func Todo() {
-	fmt.Println(`
-   todo                         Show list of todo's
+func Todo() string {
+	return `   todo                         Show list of todo's
       list, l                   Show list of todo's
          completed, c           Show completed todo's
          incompleted, in        Show incomplete todo's
       remove, r [id]            Remove a todo from list
       add, a                    Add a new todo
       complete, c [id]          Mark a todo as completed
-   `)
+   `
 }
 
-func UserInfoHelp() {
-	fmt.Println(`
-   all-users, allusr            List all users
+func UserInfoHelp() string {
+	return `all-users, allusr            List all users
    investigate, inv [username]  Get detail of the user specified
-   `)
+   `
 }
 
-func Server() {
-	fmt.Println(`
-   list            List all servers
-   `)
+func Server() string {
+	return `   list            List all servers
+   `
 }
 
 func Flags() {
 	const flags = `GLOBAL OPTIONS:
    -h, --help     Display help
    `
-
 	fmt.Println(flags)
 }

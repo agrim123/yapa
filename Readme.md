@@ -8,9 +8,17 @@ A small utility tool to speed up and ease your day to day work.
 ## Install
 
 - Clone the repo.
-- Run `glide install` to install dependencies.
+```bash
+$ git clone git@github.com:agrim123/yapa.git ~/.yapa/yapa
+```
+- Setup [glide](https://github.com/Masterminds/glide)
+- Execute the `setup.sh` script without sudo
+```bash
+$ ./setup.sh
+```
+- You are good to go!
 
-## Setup
+## Setup Profile
 
 After setting up yapa, next thing is to setup your yapa profile. This can be done by running,
 
@@ -56,6 +64,8 @@ COMMANDS:
       complete, c [id]          Mark a todo as completed
    all-users, allusr            List all users
    investigate, inv [username]  Get detail of the user specified
+   server                       List all servers listed in servers.json
+      list                      List all servers listed in servers.json
 
 GLOBAL OPTIONS:
    -h, --help     Display help
@@ -132,6 +142,8 @@ Start a never ending mode. No need of prepending yapa to all commands.
 ### Removing your yapa profile
 
 Running `yapa clean` will remove all your yapa configs.
+
+
 
 ## Contribution
 
