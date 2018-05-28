@@ -93,16 +93,18 @@ func HackerNews() {
 		go GetArticleDetails(key, ch)
 	}
 
+	var urls []string
 	j := 0
-	for i := range ch {
+	for range getTop10StoriesIds {
+		i := <-ch
 		fmt.Println(j, ")", color.Blue(i.Title), i.URL, i.Score, time.Unix(i.Time, 0))
+		urls = append(urls, i.URL)
 		j += 1
 	}
 
 	var k int
-
 	fmt.Printf("Which one to read? ")
 	fmt.Scanf("%d", &k)
-	return
-	// open(ch[i].URL)
+
+	open(urls[k])
 }
