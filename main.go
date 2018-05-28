@@ -61,6 +61,8 @@ func ParseArgs(args []string, forever bool) {
 		Servers.Poweroff()
 	case "uptime":
 		Servers.Uptime(args[0:])
+	case "server":
+		Servers.Init(args[0:])
 	case "cool":
 		Machine.Cool()
 	case "scan":

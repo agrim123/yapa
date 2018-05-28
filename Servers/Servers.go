@@ -1,6 +1,7 @@
 package Servers
 
 import (
+	"../Help"
 	"../Utility"
 	"bytes"
 	"encoding/json"
@@ -153,4 +154,18 @@ func Uptime(args []string) {
 
 	PrepareSSH(user)
 	fmt.Println(executeCmd("uptime", ParseHostname(hostname)))
+}
+
+func Init(args []string) {
+	if len(args) == 0 {
+		ListServers()
+		return
+	}
+
+	switch args[0] {
+	case "list":
+		ListServers()
+	default:
+		Help.Server()
+	}
 }

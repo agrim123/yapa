@@ -26,9 +26,12 @@ func Cmd(args []string) {
 		ListCompletedTodos()
 	case "incomplete", "incp":
 		ListIncompleteTodos()
+	case "h", "help":
+		Help.BasicInfo()
+		Help.Todo()
 	default:
 		fmt.Print("COMMAND:")
-		fmt.Println(Help.Todo())
+		Help.Todo()
 		log.Fatal(color.Red("Unknown Command"))
 	}
 }

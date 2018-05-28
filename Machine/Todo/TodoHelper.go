@@ -5,19 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/bclicn/color"
-	"io/ioutil"
 	"log"
 	"strconv"
 )
 
 func ReadTodosFromFile() Todos {
-	b, err := ioutil.ReadFile(Utility.DefaultYapaTodoJSONPath)
-	if err != nil {
-		log.Fatal(err)
-	}
+	file := Utility.ReadFile(Utility.DefaultYapaTodoJSONPath)
 
 	var todos Todos
-	json.Unmarshal(b, &todos)
+	json.Unmarshal(file, &todos)
 
 	return todos
 }

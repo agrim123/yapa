@@ -13,8 +13,7 @@ func Global(endstring string, forever bool) {
 		BasicInfo()
 	}
 
-	Commands()
-	Flags()
+	DetailedHelp()
 
 	if endstring != "" && !forever {
 		log.Fatal(color.Red(endstring))
@@ -54,11 +53,19 @@ func Commands() {
    dice                         Roll a dice
    help, h                      Display help`
 
-	fmt.Println(commands + Todo() + UserInfoHelp())
+	fmt.Println(commands)
 }
 
-func Todo() string {
-	return `
+func DetailedHelp() {
+	Commands()
+	Todo()
+	UserInfoHelp()
+	Server()
+	Flags()
+}
+
+func Todo() {
+	fmt.Println(`
    todo                         Show list of todo's
       list, l                   Show list of todo's
          completed, c           Show completed todo's
@@ -66,14 +73,20 @@ func Todo() string {
       remove, r [id]            Remove a todo from list
       add, a                    Add a new todo
       complete, c [id]          Mark a todo as completed
-   `
+   `)
 }
 
-func UserInfoHelp() string {
-	return `
+func UserInfoHelp() {
+	fmt.Println(`
    all-users, allusr            List all users
    investigate, inv [username]  Get detail of the user specified
-   `
+   `)
+}
+
+func Server() {
+	fmt.Println(`
+   list            List all servers
+   `)
 }
 
 func Flags() {

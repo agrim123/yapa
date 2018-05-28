@@ -52,6 +52,14 @@ func CreateFileIfNotExists(path string, found string, notfound string) {
 	}
 }
 
+func ReadFile(path string) (file []byte) {
+	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return
+}
+
 func CreateDirIfNotExists(path string, found string, notfound string, perm int) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fmt.Println(notfound)
