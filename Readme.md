@@ -2,7 +2,7 @@
 
 <img src="0.png" alt="Drawing" width="200px" />
 
-A small utility tool to speed up and ease your day to day work.
+A small utility tool to (maybe) ease some of your work.
 
 
 ## Install
@@ -97,9 +97,6 @@ Prints your default(id_rsa.pub) public key.
 
 Counts the number of files/folders in current directory.
 
-##### TODO
-
-- List number of hidden files.
 
 ### hackernews
 
@@ -142,7 +139,6 @@ Start a never ending mode. No need of prepending yapa to all commands.
 ### Removing your yapa profile
 
 Running `yapa clean` will remove all your yapa configs.
-
 
 
 ## Contribution

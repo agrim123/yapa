@@ -43,7 +43,6 @@ func Commands() {
    count                        Count number of files/folders in directory
    key                          Get current user's public key
    ping [HOSTNAME]              Check if host is online. Defaults to 8.8.8.8.
-   list                         List all servers listed in config.json
    bye                          Shutdown system
    uptime [USER] [IP]           Display uptime of a server
    cool
@@ -80,7 +79,7 @@ func UserInfoHelp() string {
 }
 
 func Server() string {
-	return `   list            List all servers
+	return `list            List all servers from server.json
    `
 }
 
@@ -89,4 +88,8 @@ func Flags() {
    -h, --help     Display help
    `
 	fmt.Println(flags)
+}
+
+func UnderConstruction() {
+	Global("Command has not been implemented.", false)
 }

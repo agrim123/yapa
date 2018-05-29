@@ -15,8 +15,8 @@ func Ping(args []string) {
 	message := "We are online!"
 	err := "I can't connect to internet!"
 
-	if len(args) > 1 {
-		hostname = args[1]
+	if len(args) > 0 {
+		hostname = args[0]
 		message = hostname + " is up."
 		err = hostname + " is down."
 	}
@@ -43,12 +43,10 @@ func Scan(args []string) {
 		log.Fatal(color.Red("Please provide a correct IP address."))
 	}
 
-	// Todo: Scan a host
+	Ping(args)
 }
 
 func SpeedTest() {
-	// Ping()
-
 	fmt.Println("Testing Speed...")
 
 }

@@ -8,20 +8,20 @@ import (
 )
 
 func Cmd(args []string) {
-	if len(args) == 1 {
+	if len(args) == 0 {
 		List()
 		return
 	}
 
-	switch args[1] {
+	switch args[0] {
 	case "list", "l":
 		List()
 	case "add", "a":
 		Add()
 	case "remove", "r":
-		Remove(args[1:])
+		Remove(args[0:])
 	case "complete", "c":
-		Complete(args[1:])
+		Complete(args[0:])
 	case "completed", "cp":
 		ListCompletedTodos()
 	case "incomplete", "incp":

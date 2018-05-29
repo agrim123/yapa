@@ -54,9 +54,7 @@ func ParseArgs(args []string, forever bool) {
 	case "key":
 		Servers.GetPublicKey()
 	case "ping":
-		Network.Ping(args[0:])
-	case "list":
-		Servers.ListServers()
+		Network.Ping(args[1:])
 	case "bye":
 		Servers.Poweroff()
 	case "uptime":
@@ -66,11 +64,11 @@ func ParseArgs(args []string, forever bool) {
 	case "cool":
 		Machine.Cool()
 	case "scan":
-		Network.Scan(args[0:])
+		Network.Scan(args[1:])
 	case "count":
 		Machine.Count()
 	case "speedtest":
-		Network.SpeedTest()
+		Help.UnderConstruction()
 	case "hackernews", "hn":
 		Network.HackerNews()
 	case "toss":
@@ -78,7 +76,7 @@ func ParseArgs(args []string, forever bool) {
 	case "dice":
 		Machine.Dice()
 	case "todo":
-		Todo.Cmd(args[0:])
+		Todo.Cmd(args[1:])
 	case "forever":
 		Forever()
 	case "all-users", "allusr":
